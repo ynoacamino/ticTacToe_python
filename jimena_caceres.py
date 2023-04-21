@@ -46,10 +46,22 @@ def test_rules(coord_row, coord_column):
     return True
 
 
+def view_winner(pyr):
+    win1 = square_game[0][0] == pyr and square_game[0][1] == pyr and square_game[0][2] == pyr
+    win2 = square_game[1][0] == pyr and square_game[1][1] == pyr and square_game[1][2] == pyr
+    win3 = square_game[2][0] == pyr and square_game[2][1] == pyr and square_game[2][2] == pyr
+    win4 = square_game[0][0] == pyr and square_game[1][0] == pyr and square_game[2][0] == pyr
+    win5 = square_game[0][1] == pyr and square_game[1][1] == pyr and square_game[2][1] == pyr
+    win6 = square_game[0][2] == pyr and square_game[1][2] == pyr and square_game[2][2] == pyr
+    win7 = square_game[0][0] == pyr and square_game[1][1] == pyr and square_game[2][2] == pyr
+    win8 = square_game[0][2] == pyr and square_game[1][1] == pyr and square_game[2][0] == pyr
+
+    return any([win1, win2, win3, win4, win5, win6, win7, win8])
+
+
 def game():
     turno = random.randint(0, 1)
     end_game = 0
-    print(turno)
 
     while end_game == 0:
         view_table()
@@ -62,6 +74,8 @@ def game():
                 positions = ask_positions()
 
             square_game[positions[0]][positions[1]] = "X"
+            if view_winner("X"):
+                end_game = 1
             turno = 0
 
         else:
@@ -73,9 +87,18 @@ def game():
                 positions = ask_positions()
 
             square_game[positions[0]][positions[1]] = "O"
+            if view_winner("O"):
+                end_game = 1
             turno = 1
 
         print("------------------------------------")
+    winner = ""
+    if turno == 1:
+        winner = "O"
+    else:
+        winner = "X"
+    print("FELICITACIONES GANA EL JUGADOR " + winner)
+    view_table()
 
 
 game()
